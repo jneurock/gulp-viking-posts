@@ -43,12 +43,12 @@ vb.tasks.posts = {
 
 In the above example, 4 key steps are shown:
 
-1. Post output is specified. There's a path to the source posts, `vb.output.post`, and a file name for concatenated posts `vb.output.posts`.
+1. Post output is specified. There's a path to the post output folder, `vb.output.post`, and a file name for concatenated posts `vb.output.posts`.
 2. Post source is defined `vb.sources.posts`.
 3. Build dependencies now include posts task.
 4. Posts task is defined. The example above also shows how to concatenate posts into one file.
 
-Note: Concatenating posts is optional and is easily done by using the `gulp-concat` plugin that Viking Base already depends on. If you aren't using Viking Base, you'll need to include `gulp-concat` yourself. Pay close attention to the second argument passed to `plugins.concat`. This is an options hash for `gulp-concat`. It's critical that the `newLine` property's value is `','`. If not, `gulp-concat` will separate posts with a new line and produce invalid JSON for the final output. It's also key to pass an options hash to the second occurence of `plugins.vikingPosts` with a `concat` property having a value of `true`. This tells the Viking Posts plugin to work with concatenated posts and to remove the full content from the concatenated posts, leaving only the excerpts.
+Note: Concatenating posts is optional and is easily done by using the `gulp-concat` plugin that Viking Base already depends on. If you aren't using Viking Base, you'll need to include `gulp-concat` yourself. Pay close attention to the second argument passed to `plugins.concat`. This is an options hash for `gulp-concat`. It's critical that the `newLine` property's value is `','`. If not, `gulp-concat` will separate posts with a new line and produce invalid JSON for the final output. It's also key to pass an options hash to the second occurence of `plugins.vikingPosts` with a `concat` property having a value of `true`. This tells the Viking Posts plugin to work with concatenated posts and to remove the full content from them, leaving only the excerpt.
 
 ## Using gulp-viking-posts without Viking Base
 
@@ -103,7 +103,7 @@ Any front matter that isn't `title`, `category`, `content`, `created`, `excerpt`
 You may pass an options hash to the Viking Posts plugin. The options are:
 
 * `concat: {boolean}` Tells the Viking Posts plugin to concatenate posts
-* `formatDate: {function}` User-defined function that overrides the build in date formatting function. Expects a date or a string to be passed in.
+* `formatDate: {function}` User-defined function that overrides the built-in date formatting function. Expects a date or a string to be passed in.
 * `sortPosts: {function}` User-defined sort function for concatenated posts. Defaults to date descending, category, title. Expects two post objects to be passed in.
 * `titleSeparator: {string}` For use without front matter. Viking Posts will generate a post title from the file name, separating words by this separator. Default is `'-'`.
 
