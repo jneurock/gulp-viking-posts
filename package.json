@@ -1,7 +1,7 @@
 {
   "author": "Rocky Neurock <info@vikingglory.com> (http://www.vikingglory.com/)",
   "name": "gulp-viking-posts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A gulp plugin for generating lightweight JSON blog posts. Meant for use with Viking Base but can be used standalone.",
   "keywords": [
     "viking posts",
