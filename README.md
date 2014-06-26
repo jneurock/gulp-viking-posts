@@ -143,6 +143,9 @@ Concatenated posts `dist/posts/posts.json`:
 
 ## Changelog
 
+**v0.0.4**
+* Posts no longer create an updated date from the file system if that date matches the creation date
+
 **v0.0.3**
 * Changed Markdown dependency
 

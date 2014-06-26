@@ -50,6 +50,15 @@ function createPost( file, options ) {
 	if ( !post.updated ) {
 
 		post.updated = _formatDate( file.stat.mtime );
+
+		/*
+		 * If updated date from file system matches creation date,
+		 * assume udated date should be empty
+		 */
+		if ( post.updated === post.created ) {
+
+			post.updated = '';
+		}
 	}
 
 	return JSON.stringify( post );
