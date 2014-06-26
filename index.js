@@ -270,12 +270,8 @@ function Post() {
  */
 function sortPosts( a, b ) {
 
-	var dateA = a.updated || a.created,
-			dateB = b.updated || b.created;
-
-	// Convert dates
-	dateA = new Date( dateA );
-	dateB = new Date( dateB );
+	var dateA = new Date( a.created ),
+			dateB = new Date( b.created );
 
 	// See if dates match
 	if ( dateB - dateA === 0 ) {

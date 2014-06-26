@@ -141,6 +141,11 @@ Concatenated posts `dist/posts/posts.json`:
 ]
 ```
 
+## Changelog
+
+**v0.0.2**
+* Changed default posts sort by creation date instead of updated date
+
 ## References
 * [Viking Base](https://github.com/jneurock/viking-base)
 * [npm](http://npmjs.org/)
