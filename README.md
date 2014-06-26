@@ -143,6 +143,9 @@ Concatenated posts `dist/posts/posts.json`:
 
 ## Changelog
 
+**v0.0.3**
+* Changed Markdown dependency
+
 **v0.0.2**
 * Changed default posts sort by creation date instead of updated date
 

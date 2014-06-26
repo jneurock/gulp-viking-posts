@@ -1,7 +1,7 @@
 var DOMParser = require('xmldom').DOMParser,
 		frontMatter = require('front-matter'),
 		gulpUtil = require('gulp-util'),
-		markdown = require('markdown').markdown,
+		markdown = require('marked'),
 		through = require('through2'),
 		titleCase = require('to-title-case'),
 		titleSeparator = '-';
@@ -198,10 +198,10 @@ function parseFrontMatter( file, post, options ) {
 
 		if ( content.attributes.excerpt ) {
 
-			post.excerpt = markdown.toHTML( content.attributes.excerpt );
+			post.excerpt = markdown( content.attributes.excerpt );
 		}
 
-		post.content = content.body ? markdown.toHTML( content.body ) : '';
+		post.content = content.body ? markdown( content.body ) : '';
 
 		// Look for custom front-matter
 		for ( prop in content.attributes ) {
