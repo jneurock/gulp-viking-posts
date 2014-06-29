@@ -157,6 +157,9 @@ Concatenated posts `dist/posts/posts.json`:
 
 ## Changelog
 
+**v0.0.6**
+* Fixed major bug in previous release: Highlight.js module was not included in dependencies
+
 **0.0.5**
 * Added syntax highlighting via Highlight.js
 
