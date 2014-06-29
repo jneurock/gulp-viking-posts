@@ -1,10 +1,24 @@
-var DOMParser = require('xmldom').DOMParser,
+var doc = null,
 		frontMatter = require('front-matter'),
 		gulpUtil = require('gulp-util'),
+		highlightSyntax = false,
+		hljs = require('highlight.js'),
+		jsdom = require('jsdom-little').jsdom,
 		markdown = require('marked'),
 		through = require('through2'),
 		titleCase = require('to-title-case'),
 		titleSeparator = '-';
+
+/**
+ * Create DOM
+ *
+ * @param {string} content The post content
+ * @returns {Object}
+ */
+function createDom( content ) {
+
+	return jsdom('<html><body>' + content + '</body></html>');
+}
 
 /**
  * Create a post object
@@ -14,6 +28,8 @@ var DOMParser = require('xmldom').DOMParser,
  * @returns {string} post object as a string
  */
 function createPost( file, options ) {
+
+	resetDoc();
 
 	var _formatDate = options && typeof options.formatDate === 'function' ?
 				options.formatDate : formatDate,
@@ -124,12 +140,16 @@ function getCategoryFromPath( file ) {
  */
 function getDefaultExcerpt( content ) {
 
-	var doc = new DOMParser().parseFromString( content, 'text/html' ),
-			pTags = doc.getElementsByTagName('p');
+	var pTags = [];
+
+	// "doc" is a higher level variable
+	doc = doc || createDom( content );
+	
+	pTags = doc.querySelectorAll('p');
 
 	if ( pTags.length ) {
 
-		return '<p>' + pTags[0].firstChild.nodeValue + '</p>';
+		return '<p>' + pTags[0].innerHTML + '</p>';
 
 	} else {
 
@@ -163,6 +183,34 @@ function getTitleFromPath( file, options ) {
 	}
 
 	return titleCase( title );
+}
+
+/**
+ * Parse any code blocks in the post content and highlight syntax
+ *
+ * @param {Object} post
+ */
+function highlightPostSyntax( post ) {
+
+	var codeTags = [],
+			i = 0,
+			len = 0;
+
+	doc = doc || createDom( post.content );
+	
+	codeTags = doc.querySelectorAll('pre code');
+
+	len = codeTags.length;
+
+	for ( ; i < len; i++ ) {
+
+		// Replace class names beginning with "lang-" with "language-" for Highlight.js
+		codeTags[i].className = codeTags[i].className.replace('lang-', 'language-');
+
+		hljs.highlightBlock( codeTags[i] );
+	}
+
+	post.content = doc.body.innerHTML;
 }
 
 /**
@@ -212,10 +260,15 @@ function parseFrontMatter( file, post, options ) {
 
 		post.content = content.body ? markdown( content.body ) : '';
 
+		if ( post.content && highlightSyntax ) {
+
+			highlightPostSyntax( post );
+		}
+
 		// Look for custom front-matter
 		for ( prop in content.attributes ) {
 
-			if ( content.attributes.hasOwnProperty(prop) && isCustomFrontMatter( prop ) ) {
+			if ( content.attributes.hasOwnProperty( prop ) && isCustomFrontMatter( prop ) ) {
 
 				post[ prop ] = content.attributes[ prop ];
 			}
@@ -268,6 +321,14 @@ function Post() {
 		 */
 		updated: ''
 	};
+}
+
+/**
+ * Reset the "doc" variable
+ */
+function resetDoc() {
+
+	doc = null;
 }
 
 /**
@@ -358,6 +419,12 @@ module.exports = function( options ) {
 		if ( options.formatDate && typeof options.formatDate === 'function' ) {
 
 			formatDate = options.formatDate;
+		}
+
+		// Override syntax highlighting option
+		if ( options.highlightSyntax ) {
+
+			highlightSyntax = true;
 		}
 
 		// Override sort posts function

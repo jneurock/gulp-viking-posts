@@ -104,8 +104,22 @@ You may pass an options hash to the Viking Posts plugin. The options are:
 
 * `concat: {boolean}` Tells the Viking Posts plugin to concatenate posts
 * `formatDate: {function}` User-defined function that overrides the built-in date formatting function. Expects a date or a string to be passed in.
+* `highlightSyntax: {boolean}` Tells the Viking Posts plugin to highlight syntax with [Highlight.js](http://highlightjs.org/). Default is `false`. 
 * `sortPosts: {function}` User-defined sort function for concatenated posts. Defaults to date descending, category, title. Expects two post objects to be passed in.
 * `titleSeparator: {string}` For use without front matter. Viking Posts will generate a post title from the file name, separating words by this separator. Default is `'-'`.
+
+## Syntax Highlighting
+
+Introduced in version 0.0.5, Viking Posts uses Highlight.js to highlight syntax. To enable this feature, set the option `highlightSyntax` to `true`. Since Viking Posts parses GitHub flavored Markdown by default, you can specify the language of any code block as follows:
+
+    ```javascript
+    function example() {
+      
+      // This is a JavaScript example
+    }
+    ```
+
+**Note:** You need to add CSS from Highlight.js to your project manually. Viking Posts only adds the Highlight.js markup.
 
 ## Example Output
 
@@ -125,23 +139,26 @@ Concatenated posts `dist/posts/posts.json`:
 ```json
 [
   {
-    "title": "Chicken Soup",
-    "category": "recipes",
-    "excerpt": "<p>A delicious chicken soup recipe that's been in my family for generations.</p>",
-    "created": "6/19/2014",
-    "updated": "6/24/2014"
-  },
-  {
     "title": "Hello World",
     "category": "articles",
     "excerpt": "<p>My firt post</p>",
     "created": "6/20/2014",
     "updated": ""
+  },
+  {
+    "title": "Chicken Soup",
+    "category": "recipes",
+    "excerpt": "<p>A delicious chicken soup recipe that's been in my family for generations.</p>",
+    "created": "6/19/2014",
+    "updated": "6/24/2014"
   }
 ]
 ```
 
 ## Changelog
+
+**0.0.5**
+* Added syntax highlighting via Highlight.js
 
 **v0.0.4**
 * Posts no longer create an updated date from the file system if that date matches the creation date
@@ -158,3 +175,4 @@ Concatenated posts `dist/posts/posts.json`:
 * [gulp](http://gulpjs.com/)
 * [Markdown](http://daringfireball.net/projects/markdown/)
 * [YAML front matter](http://assemble.io/docs/YAML-front-matter.html)
+* [Highlight.js](http://highlightjs.org/)
